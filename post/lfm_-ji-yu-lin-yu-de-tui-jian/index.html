@@ -2,96 +2,110 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>LFM_基于邻域的推荐 | Gridea</title>
-<link rel="shortcut icon" href="https://weiyanju.github.io//favicon.ico?v=1645937359064">
+<title>未厌居</title>
+<meta name="description" content="收集灵感碎片" />
+<link rel="shortcut icon" href="https://weiyanju.github.io//favicon.ico?v=1645938328968">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
-<link rel="stylesheet" href="https://weiyanju.github.io//styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="LFM_基于邻域的推荐 | Gridea - Atom Feed" href="https://weiyanju.github.io//atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+
+<link rel="stylesheet" href="https://weiyanju.github.io//styles/main.css">
 
 
 
-    <meta name="description" content="1 LFM 理论知识
-1.1 LFM 建模公式
-p(u,i)=puTqi=∑f=1Fpufqif其中F为隐向量的维度p(u,i)=p^T_uq_i=\sum\limits_{f=1}^{F}p_{uf}q_{if}\\其中F为隐向量的维度
-..." />
-    <meta name="keywords" content="" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://weiyanju.github.io/">
-  <img class="avatar" src="https://weiyanju.github.io//images/avatar.png?v=1645937359064" alt="">
-  </a>
-  <h1 class="site-title">
-    Gridea
-  </h1>
-  <p class="site-description">
-    温故而知新
-  </p>
-  <div class="menu-container">
+    <div id="app" class="main px-4 flex flex-col lg:flex-row">
+      <div id="sidebar" class="sidebar-wrapper lg:static lg:w-1/4">
+  <div class="lg:sticky top-0">
+    <div class="sidebar-content">
+      <div class="flex lg:block p-4 lg:px-0 items-center fixed lg:static lg:block top-0 right-0 left-0 bg-white z-50">
+        <i class="ri-menu-2-line lg:mt-4 text-2xl cursor-pointer animated fadeIn" onclick="openMenu()"></i>
+        <a href="https://weiyanju.github.io/">
+          <img class="animated fadeInLeft avatar rounded-lg mx-4 lg:mt-32 lg:mx-0 mt-0 lg:w-24 lg:h-24 w-12 w-12" src="https://weiyanju.github.io//images/avatar.png?v=1645938328968" alt="">
+        </a>
+        <h1 class="animated fadeInLeft lg:text-4xl font-extrabold lg:mt-8 mt-0 text-xl" style="animation-delay: 0.2s">未厌居</h1>
+      </div>
+      
+        <div class="animated fadeInLeft" style="animation-delay: 0.4s">
+          <p class="my-4 text-gray-600 font-light hidden lg:block">
+            文章目录
+          </p>
+          <div class="toc-container hidden lg:block">
+            <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#1-lfm-%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86">1 LFM 理论知识</a>
+<ul>
+<li><a href="#11-lfm-%E5%BB%BA%E6%A8%A1%E5%85%AC%E5%BC%8F">1.1 LFM 建模公式</a></li>
+<li><a href="#12-lfm-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0">1.2 LFM 损失函数</a></li>
+<li><a href="#13-lfm-%E7%AE%97%E6%B3%95%E8%BF%AD%E4%BB%A3">1.3 LFM 算法迭代</a></li>
+</ul>
+</li>
+<li><a href="#2-lfm-%E6%A8%A1%E5%9E%8B%E5%AE%9E%E7%8E%B0">2 LFM 模型实现</a>
+<ul>
+<li><a href="#21-%E8%B4%9F%E6%A0%B7%E6%9C%AC%E9%80%89%E5%8F%96">2.1 负样本选取</a></li>
+<li><a href="#22-%E6%A8%A1%E5%9E%8B%E5%8F%82%E6%95%B0">2.2 模型参数</a></li>
+<li><a href="#23-%E6%8E%A8%E8%8D%90%E5%80%99%E9%80%89%E9%9B%86">2.3 推荐候选集</a></li>
+<li><a href="#24-%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90">2.4 结果分析</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="menu-container">
+  <i class="ri-arrow-left-line text-2xl cursor-pointer animated fadeIn close-menu-btn" onclick="closeMenu()"></i>
+  <div>
     
       
-        <a href="/" class="menu">
+        <a href="/" class="menu" style="animation-delay: 0s">
           首页
         </a>
       
     
       
-        <a href="/archives" class="menu">
+        <a href="/archives" class="menu" style="animation-delay: 0.2s">
           归档
         </a>
       
     
       
-        <a href="/tags" class="menu">
+        <a href="/tags" class="menu" style="animation-delay: 0.4s">
           标签
         </a>
       
     
       
-        <a href="/post/about" class="menu">
+        <a href="/post/about" class="menu" style="animation-delay: 0.6000000000000001s">
           关于
         </a>
       
     
   </div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+  <div class="site-footer">
+    <div class="py-4 text-gray-700">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a></div>
+    <a class="rss" href="https://weiyanju.github.io//atom.xml" target="_blank">RSS</a>
   </div>
 </div>
-
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              LFM_基于邻域的推荐
-            </h2>
-            <div class="post-info">
-              <span>
-                2022-02-24
-              </span>
-              <span>
-                9 min read
-              </span>
-              
-            </div>
-            
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <h2 id="1-lfm-理论知识">1 LFM 理论知识</h2>
+<div class="mask" onclick="closeMenu()">
+</div>
+      <div class="content-wrapper py-32 lg:p-8 lg:w-3/4 post-detail animated fadeIn">
+        <h1 class="text-3xl font-bold lg:mt-16">LFM_基于邻域的推荐</h1>
+        <div class="text-sm text-gray-700 lg:my-8">
+          2022-02-24 / 9 min read
+        </div>
+        
+        <div class="post-content yue">
+          <h2 id="1-lfm-理论知识">1 LFM 理论知识</h2>
 <h3 id="11-lfm-建模公式">1.1 LFM 建模公式</h3>
 <p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>p</mi><mo>(</mo><mi>u</mi><mo separator="true">,</mo><mi>i</mi><mo>)</mo><mo>=</mo><msubsup><mi>p</mi><mi>u</mi><mi>T</mi></msubsup><msub><mi>q</mi><mi>i</mi></msub><mo>=</mo><munderover><mo>∑</mo><mrow><mi>f</mi><mo>=</mo><mn>1</mn></mrow><mi>F</mi></munderover><msub><mi>p</mi><mrow><mi>u</mi><mi>f</mi></mrow></msub><msub><mi>q</mi><mrow><mi>i</mi><mi>f</mi></mrow></msub><mspace linebreak="newline"></mspace><mi mathvariant="normal">其</mi><mi mathvariant="normal">中</mi><mi>F</mi><mi mathvariant="normal">为</mi><mi mathvariant="normal">隐</mi><mi mathvariant="normal">向</mi><mi mathvariant="normal">量</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">维</mi><mi mathvariant="normal">度</mi></mrow><annotation encoding="application/x-tex">p(u,i)=p^T_uq_i=\sum\limits_{f=1}^{F}p_{uf}q_{if}\\其中F为隐向量的维度
 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord mathdefault">u</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">i</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.138331em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8913309999999999em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">u</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:3.266557em;vertical-align:-1.438221em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.8283360000000002em;"><span style="top:-1.8478869999999998em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.0500049999999996em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span><span style="top:-4.300005em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">F</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.438221em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.10764em;">f</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord cjk_fallback">其</span><span class="mord cjk_fallback">中</span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord cjk_fallback">为</span><span class="mord cjk_fallback">隐</span><span class="mord cjk_fallback">向</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">维</span><span class="mord cjk_fallback">度</span></span></span></span></span></p>
@@ -286,97 +300,119 @@ q_{i f}=q_{i f}-\beta \frac{\partial L}{\partial q_{i f}}\\
         ana_recom_result(train_data, userid, recom_result)
 </code></pre>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#1-lfm-%E7%90%86%E8%AE%BA%E7%9F%A5%E8%AF%86">1 LFM 理论知识</a>
-<ul>
-<li><a href="#11-lfm-%E5%BB%BA%E6%A8%A1%E5%85%AC%E5%BC%8F">1.1 LFM 建模公式</a></li>
-<li><a href="#12-lfm-%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0">1.2 LFM 损失函数</a></li>
-<li><a href="#13-lfm-%E7%AE%97%E6%B3%95%E8%BF%AD%E4%BB%A3">1.3 LFM 算法迭代</a></li>
-</ul>
-</li>
-<li><a href="#2-lfm-%E6%A8%A1%E5%9E%8B%E5%AE%9E%E7%8E%B0">2 LFM 模型实现</a>
-<ul>
-<li><a href="#21-%E8%B4%9F%E6%A0%B7%E6%9C%AC%E9%80%89%E5%8F%96">2.1 负样本选取</a></li>
-<li><a href="#22-%E6%A8%A1%E5%9E%8B%E5%8F%82%E6%95%B0">2.2 模型参数</a></li>
-<li><a href="#23-%E6%8E%A8%E8%8D%90%E5%80%99%E9%80%89%E9%9B%86">2.3 推荐候选集</a></li>
-<li><a href="#24-%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90">2.4 结果分析</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-              </div>
-            </div>
-          </article>
         </div>
 
         
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://weiyanju.github.io/post/hello-gridea/">
-              <h3 class="post-title">
-                Hello Gridea
-              </h3>
-            </a>
-          </div>
-        
+
+
+        <div class="flex justify-between py-8">
+          
+
+          
+        </div>
 
         
-
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
-  <a class="rss" href="https://weiyanju.github.io//atom.xml" target="_blank">
-    <i class="ri-rss-line"></i> RSS
-  </a>
-</div>
 
       </div>
     </div>
 
-    <script>
-      hljs.initHighlightingOnLoad()
+    <script src="https://weiyanju.github.io//media/prism.js"></script>  
+<script>
 
-      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+Prism.highlightAll()
+let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-      // This should probably be throttled.
-      // Especially because it triggers during smooth scrolling.
-      // https://lodash.com/docs/4.17.10#throttle
-      // You could do like...
-      // window.addEventListener("scroll", () => {
-      //    _.throttle(doThatStuff, 100);
-      // });
-      // Only not doing it here to keep this Pen dependency-free.
+// This should probably be throttled.
+// Especially because it triggers during smooth scrolling.
+// https://lodash.com/docs/4.17.10#throttle
+// You could do like...
+// window.addEventListener("scroll", () => {
+//    _.throttle(doThatStuff, 100);
+// });
+// Only not doing it here to keep this Pen dependency-free.
 
-      window.addEventListener("scroll", event => {
-        let fromTop = window.scrollY;
+window.addEventListener("scroll", event => {
+  let fromTop = window.scrollY;
 
-        mainNavLinks.forEach((link, index) => {
-          let section = document.getElementById(decodeURI(link.hash).substring(1));
-          let nextSection = null
-          if (mainNavLinks[index + 1]) {
-            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-          }
-          if (section.offsetTop <= fromTop) {
-            if (nextSection) {
-              if (nextSection.offsetTop > fromTop) {
-                link.classList.add("current");
-              } else {
-                link.classList.remove("current");    
-              }
-            } else {
-              link.classList.add("current");
-            }
-          } else {
-            link.classList.remove("current");
-          }
-        });
+  mainNavLinks.forEach((link, index) => {
+    let section = document.getElementById(decodeURI(link.hash).substring(1));
+    let nextSection = null
+    if (mainNavLinks[index + 1]) {
+      nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+    }
+    if (section.offsetTop <= fromTop) {
+      if (nextSection) {
+        if (nextSection.offsetTop > fromTop) {
+          link.classList.add("current");
+        } else {
+          link.classList.remove("current");    
+        }
+      } else {
+        link.classList.add("current");
+      }
+    } else {
+      link.classList.remove("current");
+    }
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  var lazyImages = [].slice.call(document.querySelectorAll(".post-feature-image.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target
+          lazyImage.style.backgroundImage = `url(${lazyImage.dataset.bg})`
+          lazyImage.classList.remove("lazy")
+          lazyImageObserver.unobserve(lazyImage)
+        }
       });
+    });
 
-    </script>
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage)
+    })
+  } else {
+    // Possibly fall back to a more compatible method here
+  }
+});
+
+const menuContainer = document.querySelector('.menu-container')
+const menus = document.querySelectorAll('.menu-container .menu')
+const mask = document.querySelector('.mask')
+const contentWrapper = document.querySelector('.content-wrapper')
+const latestArticle = document.querySelector('.latest-article')
+const readMore = document.querySelector('.read-more')
+const indexPage = document.querySelector('.index-page')
+
+const isHome = location.pathname === '/'
+if (latestArticle) {
+  latestArticle.style.display = isHome ? 'block' : 'none'
+  readMore.style.display = isHome ? 'block' : 'none'
+  indexPage.style.display = isHome ? 'none' : 'block'
+}
+
+const openMenu = () => {
+  menuContainer.classList.add('open')
+  menus.forEach(menu => {
+    menu.classList.add('animated', 'fadeInLeft')
+  })
+  mask.classList.add('open')
+  contentWrapper.classList.add('is-second')
+}
+
+const closeMenu = () => {
+  menuContainer.classList.remove('open')
+  menus.forEach(menu => {
+    menu.classList.remove('animated', 'fadeInLeft')
+  })
+  mask.classList.remove('open')
+  contentWrapper.classList.remove('is-second')
+}
+</script>
+  
   </body>
 </html>
