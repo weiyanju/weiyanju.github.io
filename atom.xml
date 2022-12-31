@@ -2,13 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://weiyanju.github.io/</id>
     <title>未厌居</title>
-    <updated>2022-12-31T08:37:53.123Z</updated>
+    <updated>2022-12-31T08:38:52.217Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://weiyanju.github.io/"/>
     <link rel="self" href="https://weiyanju.github.io/atom.xml"/>
     <logo>https://weiyanju.github.io/images/avatar.png</logo>
     <icon>https://weiyanju.github.io/favicon.ico</icon>
     <rights>All rights reserved 2022, 未厌居</rights>
+    <entry>
+        <title type="html"><![CDATA[test123]]></title>
+        <id>https://weiyanju.github.io/post/test123/</id>
+        <link href="https://weiyanju.github.io/post/test123/">
+        </link>
+        <updated>2022-12-31T08:38:40.000Z</updated>
+        <content type="html"><![CDATA[<p>123</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[LFM_基于邻域的推荐]]></title>
         <id>https://weiyanju.github.io/post/lfm_-ji-yu-lin-yu-de-tui-jian/</id>
